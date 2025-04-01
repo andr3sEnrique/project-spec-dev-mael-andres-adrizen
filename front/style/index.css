@@ -1,0 +1,19 @@
+body {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  margin: 2vh;
+  padding: 2vh;
+  width: 20vw;
+  border: 1px, lightgray, solid;
+  border-radius: 2%;
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+}
