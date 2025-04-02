@@ -2,18 +2,16 @@ import { createBasket } from "./types/basket.js";
 import { createProduct } from "./types/product.js";
 import { createUser } from "./types/user.js";
 
-const dataDuBack = [
-  { id: 1, title: "Produit1", desc: "Le premier produit", price: 10, category: "food", images: ["url1", "url2"] },
-  { id: 1, title: "Produit2", desc: "Le deuxième produit", price: 10, category: "furniture", images: ["url1", "url2"] },
-  { id: 1, title: "Produit3", desc: "Le troisième produit", price: 10, category: "sport", images: ["url1", "url2"] },
-];
+const PORT_BACK = 1234;
 
-const getProducts = () => {
-  let products = new Array();
-  dataDuBack.forEach((productData) => {
-    let product = createProduct(productData.id, productData.title, productData.desc, productData.price, productData.category);
-    productData.images.forEach((image) => product.addImage(image));
-    products.push(product);
+const getProducts = async () => {
+  const products = await fecth(`http://localhost:${PORT_BACK}/products/`).then((data) => {
+    let json = JSON.parse(data);
+    json.forEach((productData) => {
+      let product = createProduct(productData.id, productData.title, productData.desc, productData.price, productData.category);
+      productData.images.forEach((image) => product.addImage(image));
+      products.push(product);
+    });
   });
   return products;
 };
