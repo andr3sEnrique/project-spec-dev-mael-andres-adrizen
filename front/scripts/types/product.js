@@ -1,35 +1,28 @@
-function Product(id, libelle, desc, price, category) {
+function Product(id, title, desc, price, category) {
   const isvalidCategory = (category) => Object.values(Category).includes(category);
 
   this.id = id;
-  this.libelle = libelle;
+  this.title = title;
   this.desc = desc;
   this.price = price;
   if (!isvalidCategory(category)) throw new Error("The product category is invalid");
   this.category = category;
 }
 
-const createProduct = (id, libelle, desc, price, category) => {
-  const product = new Product(id, libelle, desc, price, category);
+const createProduct = (id, title, desc, price, category) => {
+  const product = new Product(id, title, desc, price, category);
 
-  Object.defineProperty(product, "images", {
-    writable: false,
-    enumerable: true,
-    value: [],
-  });
+  Object.defineProperty(product, "images", { writable: false, enumerable: true, value: [] });
 
-  Object.defineProperty(product, "addImage", {
-    value: (img) => product.images.push(img),
-  });
+  Object.defineProperty(product, "addImage", { value: (img) => product.images.push(img) });
 
   Object.defineProperty(product, "displayProduct", {
     value: () => {
-      console.log("Entré dans la fonction");
       const productDiv = document.createElement("div");
       productDiv.classList.add("product");
       productDiv.innerHTML += `
         <div class="product-header">
-          <h3>Product :  ${product.libelle}</h3>
+          <h3>Product :  ${product.title}</h3>
           <h4>${product.category}</h4>
         </div>
         <p>${product.desc}</p>
@@ -49,4 +42,4 @@ const Category = {
 };
 Object.freeze(Category);
 
-export { createProduct, Category };
+export { Product, createProduct, Category };
