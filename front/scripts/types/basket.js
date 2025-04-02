@@ -1,5 +1,5 @@
-import { Product } from "./product";
-import { User } from "./user";
+import { Product } from "./product.js";
+import { User } from "./user.js";
 
 function Basket(id) {
   this.id = id;
@@ -25,6 +25,29 @@ const createBasket = (id) => {
       basket.products.push(product);
     },
   });
+
+  Object.defineProperty(basket, "displayBasket", {
+    value: () => {
+      basket.products.forEach((product) => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("product");
+        productDiv.innerHTML += `
+        <div class="product-header">
+          <h3>Product :  ${product.title}</h3>
+          <h4>${product.category}</h4>
+        </div>
+        <p>${product.desc}</p>
+        <p>Price : ${product.price}€</p>
+        <div class="div-remove">
+          <button class="button-remove">Remove</button>
+        </div>
+      `;
+        document.body.appendChild(productDiv);
+      });
+    },
+  });
+
+  return basket;
 };
 
 export { createBasket };

@@ -1,4 +1,6 @@
+import { createBasket } from "./types/basket.js";
 import { createProduct } from "./types/product.js";
+import { createUser } from "./types/user.js";
 
 const dataDuBack = [
   { id: 1, title: "Produit1", desc: "Le premier produit", price: 10, category: "food", images: ["url1", "url2"] },
@@ -20,5 +22,10 @@ const displayProducts = () => {
   const products = getProducts();
   products.forEach((product) => product.displayProduct());
 };
+
+const user = createUser(1, "user1", "user1");
+console.log(user);
+const basket = createBasket(1);
+console.log(basket);
 
 displayProducts();

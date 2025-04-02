@@ -27,6 +27,9 @@ const createProduct = (id, title, desc, price, category) => {
         </div>
         <p>${product.desc}</p>
         <p>Price : ${product.price}€</p>
+        <div class="div-add">
+          <button class="button-add">Add</button>
+        </div>
       `;
       document.body.appendChild(productDiv);
     },

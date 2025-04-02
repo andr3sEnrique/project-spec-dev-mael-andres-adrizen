@@ -58,3 +58,23 @@ form {
   justify-content: space-between;
   margin-bottom: 1vh;
 }
+
+.div-add {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.button-add {
+  background-color: lightgreen;
+}
+
+.div-remove {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.button-remove {
+  background-color: lightcoral;
+}

@@ -7,6 +7,8 @@ const createUser = (id, name, login) => {
 
   Object.defineProperty(user, "login", { writable: false, value: login });
   Object.defineProperty(user, "name", { writable: false, value: name });
+
+  return user;
 };
 
 export { User, createUser };
