@@ -26,6 +26,10 @@ const Product = sequelize.define('products', {
     category: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    stock: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {timestamps: false});
 
