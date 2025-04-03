@@ -1,4 +1,4 @@
-const { Product } = require('../../models/index');
+const { Product, Image } = require('../../models/index');
 const { Op } = require('sequelize');
 const ImagenService = require('../../images/services/image-service');
 
@@ -13,7 +13,13 @@ class ProductService {
 
     static async getProductById(id) {
         try {
-            return await Product.findByPk(id);
+            return await Product.findByPk(id, {
+                include: [{
+                    model: Image,
+                    as: 'images',
+                    attributes: ['url'],
+                }]
+            });
         }catch (error) {
             throw new Error('Error getting product');
         }
@@ -31,11 +37,10 @@ class ProductService {
 
     static async createOrUpdateProduct(product) {
         try {
-            console.log(product);
             const { images } = product;
             const [newProduct] = await Product.upsert(product);
             if (images) await ImagenService.createImage(images, newProduct.id);
-            return newProduct;
+            return this.getProductById(newProduct.id);
         }catch (error) {
             throw new Error('Error creating or updating product');
         }
