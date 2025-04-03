@@ -2,11 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require("helmet");
-const { sequelize} = require('./models/index');
+const { sequelize } = require('./models/index');
 const authRoutes = require('./auth/routes/auth-routes');
 const productRoutes = require('./products/routes/product-routes');
 const basketRoutes = require('./baskets/routes/basket-routes');
-const authMiddleware = require('./middlewares/authMiddleware');
+const { authMiddleware } = require('./middlewares/authMiddleware');
 
 const corsOptions = {
   origin: "*",

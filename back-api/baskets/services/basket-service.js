@@ -1,17 +1,23 @@
-const { Cart, CartItem, Product } = require('../../models/index');
+const { Basket, BasketItem, Product } = require('../../models/index');
 const BasketItemService = require('./basket-item-service');
 class BasketService {
     static async getCart(userId) {
         try {
-            return await Cart.findOne({ where: { user_id: userId } });
+            return await Basket.findOne({ where: { user_id: userId } });
         } catch (error) {
             throw new Error('Error getting cart');
         }
     }
 
-    static async removeCart(cartId) {
+    static async removeCart(cartId, user_id) {
         try {
-            return await Cart.destroy({ where: { id: cartId } });
+            const deletedRows = await Basket.destroy({ where: { id: cartId, user_id } });
+        
+            if (deletedRows === 0) {
+                throw new Error('Cart not found or not owned by user');
+            }
+
+            return deletedRows;
         } catch (error) {
             throw new Error('Error removing cart');
         }
@@ -19,11 +25,11 @@ class BasketService {
 
     static async getCartWithItems(userId) {
         try {
-            return await Cart.findOne({ 
+            return await Basket.findOne({ 
                 where: { user_id: userId }, 
                 include: [
                     {
-                        model: CartItem,
+                        model: BasketItem,
                         attributes: ['quantity'],
                         include: [{ model: Product, attributes: ['title', 'description', 'price'] }]
                     }
@@ -35,10 +41,10 @@ class BasketService {
     static async addOrUpdateCart(userId, quantity = 1, productId) {
         try {
             let cart = await this.getCart(userId);
-            if (!cart) cart = await Cart.create({ user_id: userId });
+            if (!cart) cart = await Basket.create({ user_id: userId });
             return await BasketItemService.addOrUpdateCartItem(cart.id, quantity, productId);
         } catch (error) {
-            throw new Error('Error adding product to cart');
+            throw new Error(error.message);
         }
     }
 }

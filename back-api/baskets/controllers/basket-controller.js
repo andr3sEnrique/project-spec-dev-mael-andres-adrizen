@@ -21,7 +21,7 @@ class BasketController {
 
     static async removeCard(req, res) {
         try {
-            await BasketService.removeCart(req.params.basketId);
+            await BasketService.removeCart(req.params.basketId, req.user.id);
             res.status(200).json({ message: 'Cart removed' });
         } catch (error) {
             res.status(400).json({ message: error.message });

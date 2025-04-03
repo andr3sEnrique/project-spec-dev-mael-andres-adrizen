@@ -14,4 +14,4 @@ Product.hasMany(BasketItem, { foreignKey: 'product_id', onDelete: 'CASCADE' });
 BasketItem.belongsTo(Basket, { foreignKey: 'basket_id' });
 BasketItem.belongsTo(Product, { foreignKey: 'product_id' });
 
-module.exports = { sequelize, User, Product, Image, Cart: Basket, CartItem: BasketItem };
+module.exports = { sequelize, User, Product, Image, Basket, BasketItem };
