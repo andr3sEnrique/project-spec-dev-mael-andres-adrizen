@@ -1,5 +1,5 @@
 const { Product, Image } = require('../../models/index');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const ImagenService = require('../../images/services/image-service');
 
 class ProductService {
@@ -32,6 +32,21 @@ class ProductService {
             }}});
         }catch (error) {
             throw new Error("Error searching products");
+        }
+    }
+
+    static async getProductStats() {
+        try {
+            return await Product.findAll({
+                attributes: [
+                    'category',
+                    [Sequelize.literal('COUNT(*)'), 'compte']
+                ],
+                group: ['category'],
+                order: [[Sequelize.literal('compte'), 'DESC']]
+            });
+        } catch (error) {
+            throw new Error(error.message);
         }
     }
 

@@ -44,7 +44,16 @@ class ProductController {
         } catch (error) {
           res.status(500).json({ error: "Error searching products" });
         }
-      }
+    }
+
+    static async getProductStats(req, res) {
+        try {
+            const stats = await ProductService.getProductStats();
+            res.status(200).json(stats);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = ProductController;

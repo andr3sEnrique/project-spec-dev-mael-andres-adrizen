@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get('/', ProductController.getAllProducts);
 router.get('/search', ProductController.searchProducts);
+router.get('/stats', ProductController.getProductStats);
 router.get('/:id', ProductController.getProductById);
 router.put('/', ProductController.createOrUpdateProduct);
 router.delete('/:id', ProductController.deleteProduct);
