@@ -13,8 +13,8 @@ class AuthController {
     
     static async loginUser(req, res) {
         try {
-            const user = await AuthService.loginUser(req.body);
-            res.status(200).json({ message: 'User logged in', token, user });
+            const token = await AuthService.loginUser(req.body);
+            res.status(200).json({ message: 'User logged in', token });
         } catch (error) {
             res.status(401).json({ message: error.message });
         }

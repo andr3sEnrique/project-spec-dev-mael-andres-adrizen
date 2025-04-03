@@ -18,15 +18,24 @@ class ProductService {
         }
     }
 
+    static async searchProducts(query) {
+        try {
+            return await Product.findAll({ where: { title: {
+                [Op.like]: `%${query}%`
+            }}});
+        }catch (error) {
+            throw new Error('Error searching products');
+        }
+    }
+
     static async createOrUpdateProduct(product) {
         try {
             const { images } = product;
             const newProduct = await Product.upsert(product);
-
-            if (images || images.length > 0) await ImagenService.createImage(images, newProduct.id);
+            if (images) await ImagenService.createImage(images, newProduct.id);
             return newProduct;
         }catch (error) {
-            throw new Error('Error creating/updating product');
+            throw new Error('Error creating or updating product');
         }
     }
 

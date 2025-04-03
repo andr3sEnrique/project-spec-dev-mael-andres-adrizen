@@ -5,15 +5,15 @@ const { sequelize} = require('./models/index');
 const authRoutes = require('./auth/routes/auth-routes');
 const productRoutes = require('./products/routes/product-routes');
 const cartRoutes = require('./carts/routes/cart-routes');
-
+const authMiddleware = require('./middlewares/authMiddleware');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRoutes);
-app.use('/products', productRoutes);
-app.use('/carts', cartRoutes);
+app.use('/products', authMiddleware, productRoutes);
+app.use('/carts', authMiddleware, cartRoutes);
 
 sequelize.sync()
     .then(() => {

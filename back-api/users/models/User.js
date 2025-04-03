@@ -11,7 +11,7 @@ const User = sequelize.define('users', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    email: {
+    username: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
@@ -21,8 +21,18 @@ const User = sequelize.define('users', {
         allowNull: false
     }
 }, {
-    defaultScope: {
-        attributes: { exclude: ['id','password'] }
+    hooks: {
+        beforeCreate: (user) => {
+            user.username = user.username.toLowerCase();
+        },
+        afterCreate: (user) => {
+            delete user.dataValues.password;
+            delete user.dataValues.id;
+        },
+        afterUpdate: (user) => {
+            delete user.dataValues.password;
+            delete user.dataValues.id;
+        }
     }
 });
 
