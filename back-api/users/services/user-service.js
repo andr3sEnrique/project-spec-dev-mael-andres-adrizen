@@ -20,7 +20,7 @@ class UserService {
         try {
             return await User.create(user);
         } catch (error) {
-            throw new Error('Error creating user');
+            throw new Error(error.message);
         }
     }
 }

@@ -1,4 +1,5 @@
 const { Product } = require('../../models/index');
+const { Op } = require('sequelize');
 const ImagenService = require('../../images/services/image-service');
 
 class ProductService {
@@ -24,14 +25,15 @@ class ProductService {
                 [Op.like]: `%${query}%`
             }}});
         }catch (error) {
-            throw new Error('Error searching products');
+            throw new Error("Error searching products");
         }
     }
 
     static async createOrUpdateProduct(product) {
         try {
+            console.log(product);
             const { images } = product;
-            const newProduct = await Product.upsert(product);
+            const [newProduct] = await Product.upsert(product);
             if (images) await ImagenService.createImage(images, newProduct.id);
             return newProduct;
         }catch (error) {
