@@ -39,7 +39,7 @@ class ProductController {
 
     static async searchProducts(req, res) {
         try {
-          const products = await ProductService.searchProducts(req.query);
+          const products = await ProductService.searchProducts(req.query.query);
           res.status(200).json(products);
         } catch (error) {
           res.status(500).json({ error: "Error searching products" });

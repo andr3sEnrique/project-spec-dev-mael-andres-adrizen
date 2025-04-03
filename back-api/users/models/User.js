@@ -22,9 +22,6 @@ const User = sequelize.define('users', {
     }
 }, {
     hooks: {
-        beforeCreate: (user) => {
-            user.username = user.username.toLowerCase();
-        },
         afterCreate: (user) => {
             delete user.dataValues.password;
             delete user.dataValues.id;
