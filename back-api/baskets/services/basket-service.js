@@ -1,6 +1,6 @@
 const { Cart, CartItem, Product } = require('../../models/index');
-const CartItemService = require('./cart-item-service');
-class CartService {
+const BasketItemService = require('./basket-item-service');
+class BasketService {
     static async getCart(userId) {
         try {
             return await Cart.findOne({ where: { user_id: userId } });
@@ -36,11 +36,11 @@ class CartService {
         try {
             let cart = await this.getCart(userId);
             if (!cart) cart = await Cart.create({ user_id: userId });
-            return await CartItemService.addOrUpdateCartItem(cart.id, quantity, productId);
+            return await BasketItemService.addOrUpdateCartItem(cart.id, quantity, productId);
         } catch (error) {
             throw new Error('Error adding product to cart');
         }
     }
 }
 
-module.exports = CartService;
+module.exports = BasketService;

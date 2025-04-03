@@ -13,4 +13,9 @@ const Image = sequelize.define('images', {
     }
 }, {timestamps: false});
 
+Image.addIndex(['product_id', 'url'], {
+    unique: true,
+    name: 'unique_product_url'
+  });
+  
 module.exports = Image;

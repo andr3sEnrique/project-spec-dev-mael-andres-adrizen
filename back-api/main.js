@@ -4,7 +4,7 @@ const cors = require('cors');
 const { sequelize} = require('./models/index');
 const authRoutes = require('./auth/routes/auth-routes');
 const productRoutes = require('./products/routes/product-routes');
-const cartRoutes = require('./carts/routes/cart-routes');
+const basketRoutes = require('./baskets/routes/basket-routes');
 const authMiddleware = require('./middlewares/authMiddleware');
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/products', authMiddleware, productRoutes);
-app.use('/carts', authMiddleware, cartRoutes);
+app.use('/baskets', authMiddleware, basketRoutes);
 
 sequelize.sync()
     .then(() => {

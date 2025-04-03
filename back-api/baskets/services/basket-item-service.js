@@ -1,10 +1,10 @@
 const { CartItem } = require('../../models/index');
 const ProductService = require('../../products/services/product-service');
 
-class CartItemService {
+class BasketItemService {
     static async getCartItem(cartId, productId) {
         try {
-            return await CartItem.findOne({ where: { cart_id: cartId, product_id: productId } });
+            return await CartItem.findOne({ where: { basket_id: cartId, product_id: productId } });
         } catch (error) {
             throw new Error('Error getting cart item');
         }
@@ -19,7 +19,7 @@ class CartItemService {
                 cartItem.quantity += quantity;
                 await cartItem.save();
             } else {
-                cartItem = await CartItem.create({ cart_id: cartId, product_id: productId, quantity });
+                cartItem = await CartItem.create({ basket_id: cartId, product_id: productId, quantity });
             }
 
             product.stock -= quantity;
@@ -31,4 +31,4 @@ class CartItemService {
     }
 }
 
-module.exports = CartItemService;
+module.exports = BasketItemService;

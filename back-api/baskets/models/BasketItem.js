@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/config');
 
-const CartItem = sequelize.define('cart_items', {
+const BasketItem = sequelize.define('basket_items', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -13,4 +13,4 @@ const CartItem = sequelize.define('cart_items', {
     }
 }, {timestamps: false});
 
-module.exports = CartItem;
+module.exports = BasketItem;
