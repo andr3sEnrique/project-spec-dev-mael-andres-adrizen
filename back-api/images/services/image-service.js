@@ -1,8 +1,8 @@
 const { Image } = require('../../models/index');
 class ImageService {
-    static async getAllImages(productId) {
+    static async getAllImages(product_id) {
         try {
-            return await Image.findAll({ where: { product_id: productId } });
+            return await Image.findAll({ where: { product_id } });
         }catch (error) {
             throw new Error('Error getting images');
         }
@@ -20,7 +20,7 @@ class ImageService {
         try {
             const { imagesToDelete, imagesToCreate } = await this.compareImages(images.map(image => image.url), product_id);
             if (imagesToDelete.length) {
-                await this.deleteImageForProducts(product_id);
+                await Promise.all(imagesToDelete.map(image => this.deleteImageById(image)));
             }
             if (imagesToCreate.length) {
                 await Image.bulkCreate(imagesToCreate, { 
@@ -34,9 +34,10 @@ class ImageService {
 
     static async compareImages(newImages, product_id) {
         try {
-            const currentImages = (await Image.findAll({ where: { product_id } })).map(image => image.url);
-            const imagesToDelete = currentImages.filter(image => !newImages.includes(image));
-            const imagesToCreate = (newImages.filter(image => !currentImages.includes(image))).map(image => ({ url: image, product_id }));
+            const currentImages = await this.getAllImages(product_id);
+            const currentImageUrls = currentImages.map(image => image.url);
+            const imagesToDelete = currentImages.filter(image => !newImages.includes(image.url)).map(image => image.id);
+            const imagesToCreate = newImages.filter(image => !currentImageUrls.includes(image)).map(image => ({ url: image, product_id }));
             return { imagesToDelete, imagesToCreate };
         } catch (error) {
             throw new Error('Error comparing images');
@@ -44,9 +45,9 @@ class ImageService {
     }
 
 
-    static async deleteImageForProducts(product_id) {
+    static async deleteImageById(id) {
         try {
-            return await Image.destroy({ where: { product_id } });
+            return await Image.destroy({ where: { id } });
         } catch (error) {
             throw new Error('Error deleting image');
         }

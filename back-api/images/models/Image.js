@@ -10,12 +10,18 @@ const Image = sequelize.define('images', {
     url: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    product_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
-}, {timestamps: false});
+}, {
+    timestamps: false, 
+    indexes: [{
+        name: 'idx_image_url_product_id',
+        unique: true,
+        fields: ['url', 'product_id']
+    }]
+});
 
-Image.addIndex(['product_id', 'url'], {
-    unique: true,
-    name: 'unique_product_url'
-  });
-  
 module.exports = Image;
