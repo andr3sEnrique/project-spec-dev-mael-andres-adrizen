@@ -42,6 +42,7 @@ const Category = {
   FOOD: "food",
   FURNITURE: "furniture",
   SPORT: "sport",
+  BOULANGERIE: "BOULANGERIE",
 };
 Object.freeze(Category);
 

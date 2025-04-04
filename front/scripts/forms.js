@@ -17,11 +17,16 @@ if (loginForm) {
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) throw new Error("Invalid credentials ");
+      if (!res.ok) {
+        const errorDiv = document.getElementById("error-login");
+        errorDiv.innerHTML += "Invalid Credentials";
+      }
 
       const user = createUser("", "");
       const json = await res.json();
       user.setToken(json.token);
+      document.cookie = `token = ${user.token}; expires=${user.tokenEndDate}; path=/;`;
+      window.location.replace("http://127.0.0.1:5500/front/index.html");
     } catch (err) {
       console.log(err);
     }
@@ -48,7 +53,7 @@ if (registerForm) {
       if (!res.ok) throw new Error("Something went wrong");
 
       const json = await res.json();
-      console.log(json);
+      window.location.replace("http://127.0.0.1:5500/front/components/login-form.html");
     } catch (err) {
       console.log(err);
     }
